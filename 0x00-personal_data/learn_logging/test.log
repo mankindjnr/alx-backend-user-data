@@ -1,0 +1,18 @@
+DEBUG:root:Add: 10 + 5 = 15
+DEBUG:root:Subtract: 10 - 5 = 5
+DEBUG:root:Multiply: 10 * 5 = 50
+DEBUG:root:Divide: 10 / 5 = 2.0
+DEBUG:root:Add: 10 + 545 = 555
+DEBUG:root:Subtract: 10 - 545 = -535
+DEBUG:root:Multiply: 10 * 545 = 5450
+DEBUG:root:Divide: 10 / 545 = 0.01834862385321101
+
+"""log_level:logger: message"""
+DEBUG:root:Add: 104 + 545 = 649
+DEBUG:root:Subtract: 104 - 545 = -441
+DEBUG:root:Multiply: 104 * 545 = 56680
+DEBUG:root:Divide: 104 / 545 = 0.1908256880733945
+2023-08-02 10:58:55,782:DEBUG:Add: 94 + 49 = 143
+2023-08-02 10:58:55,782:DEBUG:Subtract: 94 - 49 = 45
+2023-08-02 10:58:55,782:DEBUG:Multiply: 94 * 49 = 4606
+2023-08-02 10:58:55,782:DEBUG:Divide: 94 / 49 = 1.9183673469387754
