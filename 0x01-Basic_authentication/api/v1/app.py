@@ -20,11 +20,17 @@ def not_found(error) -> str:
     """
     return jsonify({"error": "Not found"}), 404
 
-@app.errohandler(401)
-def unauthorized_endpoint(error) -> str:
+@app.errorhandler(401)
+def unauthorized(error) -> str:
     """request unauthorised
     """
-    return jsonify({"error": "unauthorized"}), 401
+    return jsonify({"error": "Unauthorized"}), 401
+
+@app.errorhandler(403)
+def forbidden_access(error) -> str:
+    """not allowed access to a resource
+    """
+    return jsonify({"error": "Forbidden"}), 403
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
