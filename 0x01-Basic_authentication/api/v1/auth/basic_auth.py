@@ -4,6 +4,7 @@ empty class that inherits from auth
 """
 from typing import TypeVar
 from models.user import User
+from api.v1.auth.auth import Auth
 import base64
 
 
@@ -91,5 +92,35 @@ class BasicAuth(Auth):
 
         if not user.is_valid_password(user_pwd):
             return None
+
+        return user
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """overloads Auth and retrieves the user instance
+        for a request"""
+        if request is None:
+            return None
+
+        auth_header = self.authorization_header(request)
+
+        if auth_header is None:
+            return None
+
+        credentials = self.extract_base64_authorization_header(auth_header)
+
+        if credentials is None:
+            return None
+
+        decoded_cred = self.decode_base64_authorization_header(credentials)
+
+        if decoded_cred is None:
+            return None
+
+        user_email, user_pwd = self.extract_user_credentials(decoded_cred)
+
+        if user_email is None or user_pwd is None:
+            return None
+
+        user = self.user_object_from_credentials(user_email, user_pwd)
 
         return user
