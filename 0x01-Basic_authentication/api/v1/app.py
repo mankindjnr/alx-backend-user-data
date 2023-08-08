@@ -22,9 +22,6 @@ if "AUTH_TYPE" in os.environ:
     else:
         from api.v1.auth.auth import Auth
         auth = Auth()
-else:
-    from api.v1.auth.auth import Auth
-    auth = Auth()
 
 
 @app.before_request
@@ -36,8 +33,11 @@ def before_request():
 
     excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
                       '/api/v1/forbidden/']
+    the_path = request.path
+    if not the_path.endswith("/"):
+        the_path = the_path + "/"
 
-    if request.path in excluded_paths:
+    if the_path in excluded_paths:
         return
 
     if auth.require_auth(request, excluded_paths):
