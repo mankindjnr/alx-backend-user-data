@@ -26,20 +26,20 @@ else:
     from api.v1.auth.auth import Auth
     auth = Auth()
 
-
+@app.before_request
 def before_request():
     """executed before the requests
     """
     if auth is None:
         return
 
-    exclude = ['/api/v1/status/', '/api/v1/unauthorized/',
+    excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
                '/api/v1/forbidden/']
 
-    if request.path in exclude:
+    if request.path in excluded_paths:
         return
 
-    if auth.require_auth(request):
+    if auth.require_auth(request, excluded_paths):
         if auth.authorization_header(request) is None:
             abort(401)
 
