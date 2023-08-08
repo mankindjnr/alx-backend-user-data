@@ -26,6 +26,7 @@ else:
     from api.v1.auth.auth import Auth
     auth = Auth()
 
+
 @app.before_request
 def before_request():
     """executed before the requests
@@ -34,7 +35,7 @@ def before_request():
         return
 
     excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
-               '/api/v1/forbidden/']
+                      '/api/v1/forbidden/']
 
     if request.path in excluded_paths:
         return
