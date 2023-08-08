@@ -22,6 +22,8 @@ if "AUTH_TYPE" in os.environ:
 
 
 def before_request():
+    """executed before the requests
+    """
     if auth is None:
         return
 
