@@ -13,8 +13,8 @@ class Auth():
         """handles the paths
         """
         if path:
-            if path[-1:] != "/":
-                path += "/"
+            if not request.path.endswith("/"):
+                path = request.path + "/"
 
         if path is None or path not in excluded_paths or \
            excluded_paths is None or len(excluded_paths) == 0:
@@ -27,10 +27,13 @@ class Auth():
         """
         if request is None:
             return None
-        if not request.headers['Authorization']:
+
+        header = request.headers.get('Authorization')
+
+        if header is None:
             return None
         else:
-            return request.headers['Authorization']
+            return header
 
     def current_user(self, request=None) -> TypeVar('User'):
         """the current user method
