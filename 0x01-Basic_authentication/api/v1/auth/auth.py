@@ -13,8 +13,13 @@ class Auth():
         """handles the paths
         """
         if path:
-            if not request.path.endswith("/"):
-                path = request.path + "/"
+            if isinstance(path, str):
+                path = path
+            else:
+                path = path.path
+
+            if not path.endswith("/"):
+                path = path + "/"
 
         if path is None or path not in excluded_paths or \
            excluded_paths is None or len(excluded_paths) == 0:
