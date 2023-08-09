@@ -7,6 +7,7 @@ import os
 
 
 from api.v1.auth.auth import Auth
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -37,3 +38,20 @@ class SessionAuth(Auth):
 
         session_value = self.session_user.get(session_id)
         return session_value
+
+    def current_user(self, request=None):
+        """an overload that returns a user instance
+        based on a cookie value"""
+        if request is None:
+            return None
+
+        cookie_value = self.session_cookie(request)
+        if not cookie_value:
+            return None
+
+        user_id = self.user_id_for_session_id(cookie_value)
+        if not user_id:
+            return None
+
+        user = User.get(user_id)
+        return user
