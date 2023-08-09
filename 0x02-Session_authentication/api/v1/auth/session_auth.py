@@ -3,6 +3,7 @@
 creating a new authentication mechanism
 """
 import uuid
+import os
 
 
 from api.v1.auth.auth import Auth

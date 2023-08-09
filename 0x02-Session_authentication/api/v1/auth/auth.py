@@ -4,6 +4,8 @@ creating a class to manage the api auth
 """
 from flask import request
 from typing import TypeVar, List
+import os
+import uuid
 
 
 class Auth():
@@ -44,3 +46,12 @@ class Auth():
         """the current user method
         """
         return None
+
+    def session_cookie(self, request=None):
+        """returns a cookie value from a request
+        """
+        if request is None:
+            return None
+        cookie_name = os.environ.get('SESSION_NAME', '_my_session_id')
+        session_id = request.cookies.get(cookie_name)
+        return session_id
