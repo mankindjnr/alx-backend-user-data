@@ -1,8 +1,42 @@
-# session authentication
-### =======================================================
-## HTTP COOKIE
-The cookie is a small piece of data sent from the server and stored in the user's web browser while the user is browsing.
-When the user browses the same website in the future, the data stored in the cookie can be retrieved by the website to notify the website of the user's previous activity.
+# Simple API
 
-The cookie http request contains stored http cookies associated with the server and/or the website.
-They are sent previously by the server with the __Set-cookie__ header or set in javacript using __document.cookie.__
+Simple HTTP API for playing with `User` model.
+
+
+## Files
+
+### `models/`
+
+- `base.py`: base of all models of the API - handle serialization to file
+- `user.py`: user model
+
+### `api/v1`
+
+- `app.py`: entry point of the API
+- `views/index.py`: basic endpoints of the API: `/status` and `/stats`
+- `views/users.py`: all users endpoints
+
+
+## Setup
+
+```
+$ pip3 install -r requirements.txt
+```
+
+
+## Run
+
+```
+$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
+```
+
+
+## Routes
+
+- `GET /api/v1/status`: returns the status of the API
+- `GET /api/v1/stats`: returns some stats of the API
+- `GET /api/v1/users`: returns the list of users
+- `GET /api/v1/users/:id`: returns an user based on the ID
+- `DELETE /api/v1/users/:id`: deletes an user based on the ID
+- `POST /api/v1/users`: creates a new user (JSON parameters: `email`, `password`, `last_name` (optional) and `first_name` (optional))
+- `PUT /api/v1/users/:id`: updates an user based on the ID (JSON parameters: `last_name` and `first_name`)
