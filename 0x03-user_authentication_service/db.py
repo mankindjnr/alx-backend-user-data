@@ -47,10 +47,13 @@ class DB:
             user = self._session.query(User).filter_by(**kwargs).first()
             if user is None:
                 raise NoResultFound("Not Found")
-            return user
         except InvalidRequestError as e:
             self._session.rollback()
             raise e
+        finally:
+            self._session.close()
+
+        return user
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """updating a users credentials"""

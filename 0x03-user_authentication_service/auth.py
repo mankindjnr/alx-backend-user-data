@@ -54,9 +54,24 @@ class Auth:
 
     def create_session(self, email: str) -> str:
         """returns the session id as str"""
-        user = self._db._session.query(User).filter_by(email=email).first()
-        if user:
-            session_id = self._generate_uuid()
-            user.session_id = session_id
+        # user = self._db._session.query(User).filter_by(email=email).first()
+        try:
+            user = self._db.find_user_by(email=email)
+            if user:
+                session_id = self._generate_uuid()
+                user.session_id = session_id
 
-            return session_id
+                return session_id
+        except NoResultFound:
+            return None
+
+    def get_user_from_session_id(self, session_id: str) -> User:
+        """returns the corresponding user or none"""
+        try:
+            user = self._db.find_user_by(session_id=session_id)
+            if user is None or session_id is None:
+                return None
+
+            return user
+        except NoResultFound:
+            return None
