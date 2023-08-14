@@ -51,3 +51,12 @@ class Auth:
         """generating uuids"""
         the_uuid = str(uuid.uuid4())
         return the_uuid
+
+    def create_session(self, email: str) -> str:
+        """returns the session id as str"""
+        user = self._db._session.query(User).filter_by(email=email).first()
+        if user:
+            session_id = self._generate_uuid()
+            user.session_id = session_id
+
+            return session_id
