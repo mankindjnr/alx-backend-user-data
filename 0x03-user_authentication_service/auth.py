@@ -18,6 +18,12 @@ def _hash_password(password: str) -> bytes:
     return hashed_pwd
 
 
+def _generate_uuid(self) -> str:
+    """generating uuids"""
+    the_uuid = str(uuid.uuid4())
+    return the_uuid
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -55,18 +61,13 @@ class Auth:
         else:
             return False
 
-    def _generate_uuid(self) -> str:
-        """generating uuids"""
-        the_uuid = str(uuid.uuid4())
-        return the_uuid
-
     def create_session(self, email: str) -> str:
         """returns the session id as str"""
         # user = self._db._session.query(User).filter_by(email=email).first()
         try:
             user = self._db.find_user_by(email=email)
             if user:
-                session_id = self._generate_uuid()
+                session_id = _generate_uuid()
                 user.session_id = session_id
 
                 # persisting the session
@@ -110,7 +111,7 @@ class Auth:
             if not user or user is None:
                 raise ValueError("No user Found")
 
-            reset_token = self._generate_uuid()
+            reset_token = _generate_uuid()
             user.reset_token = reset_token
         except NoResultFound:
             raise ValueError("No user Found")
