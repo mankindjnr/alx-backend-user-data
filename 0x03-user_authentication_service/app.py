@@ -65,6 +65,23 @@ def profile():
     return jsonify({"email": user.email}), 200
 
 
+@app.route("reset_password", methods=["POST"])
+def get_reset_password_token():
+    """the reset password token"""
+    data = request.form
+    email = data.get('email')
+
+    user = AUTH.get_user(email)
+    if user is None:
+        abort(403)
+    
+    token = AUTH.get_reset_password_token(email)
+    return ({
+        "email": user.email,
+        "reset_token": token
+    })
+
+
 @app.route("/sessions", methods=['DELETE'])
 def logout():
     """logout function"""
