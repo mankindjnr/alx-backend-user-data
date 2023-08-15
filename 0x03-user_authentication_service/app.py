@@ -9,8 +9,10 @@ from flask import url_for, redirect, session
 from auth import Auth
 
 
+AUTH =Auth()
+
+
 app = Flask(__name__)
-AUTH = Auth()
 
 
 @app.route("/", methods=['GET'])
