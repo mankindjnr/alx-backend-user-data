@@ -5,7 +5,6 @@ basic falsk app
 from flask import Flask, abort, jsonify, request, make_response
 from flask import url_for, redirect, session
 from auth import Auth
-import flask
 
 
 app = Flask(__name__)
@@ -13,13 +12,13 @@ AUTH = Auth()
 
 
 @app.route("/", methods=['GET'])
-def payload():
+def payload() -> str:
     """returning a jsonified string"""
-    return flask.jsonify({"message": "Bienvenue"})
+    return jsonify({"message": "Bienvenue"})
 
 
 @app.route("/users", methods=['POST'])
-def users():
+def users() -> str:
     """handle the user route data"""
     try:
         data = request.form
@@ -35,7 +34,7 @@ def users():
 
 
 @app.route("/sessions", methods=['POST'])
-def login():
+def login() -> str:
     """function responds to the login sessions route"""
     data = request.form
     email = data.get('email')
@@ -55,7 +54,7 @@ def login():
 
 
 @app.route("/profile", methods=["GET"])
-def profile():
+def profile() -> str:
     """a profile function"""
     session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
@@ -66,7 +65,7 @@ def profile():
 
 
 @app.route("reset_password", methods=["POST"])
-def get_reset_password_token():
+def get_reset_password_token() -> str:
     """the reset password token"""
     data = request.form
     email = data.get('email')
@@ -83,7 +82,7 @@ def get_reset_password_token():
 
 
 @app.route("/reset_password", methods=["PUT"])
-def update_password():
+def update_password() -> str:
     """updating the users password"""
     data = request.form
     email = data.get('email')
@@ -102,7 +101,7 @@ def update_password():
 
 
 @app.route("/sessions", methods=['DELETE'])
-def logout():
+def logout() -> str:
     """logout function"""
     session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
