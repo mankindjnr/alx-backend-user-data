@@ -74,7 +74,7 @@ def get_reset_password_token():
     user = AUTH.get_user(email)
     if user is None:
         abort(403)
-    
+
     token = AUTH.get_reset_password_token(email)
     return ({
         "email": user.email,
