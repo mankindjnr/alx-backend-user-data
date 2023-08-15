@@ -61,15 +61,25 @@ class Auth:
                 session_id = self._generate_uuid()
                 user.session_id = session_id
 
-                return session_id
+                # persisting the session
+                try:
+                    self._db._session.commit()
+                    return session_id
+                except Exception as e:
+                    self._db._session.rollback()
+                    print("Error commiting changes:", e)
+                    return None
         except NoResultFound:
             return None
 
     def get_user_from_session_id(self, session_id: str) -> User:
         """returns the corresponding user or none"""
+        if session_id is None:
+            return None
+
         try:
             user = self._db.find_user_by(session_id=session_id)
-            if not user or session_id is None:
+            if not user or user is None:
                 return None
 
             return user

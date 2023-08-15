@@ -2,7 +2,8 @@
 """
 basic falsk app
 """
-from flask import Flask, abort, jsonify, request, make_response, redirect
+from flask import Flask, abort, jsonify, request, make_response
+from flask import url_for, redirect, session
 from auth import Auth
 import flask
 
@@ -34,8 +35,8 @@ def users():
 
 
 @app.route("/sessions", methods=['POST'])
-def session():
-    """function responds to the sessions route"""
+def login():
+    """function responds to the login sessions route"""
     data = request.form
     email = data.get('email')
     passwd = data.get('password')
@@ -43,17 +44,25 @@ def session():
     if not AUTH.valid_login(email, passwd):
         abort(401)
 
-    new_session = AUTH.create_session(email)
+    session_id = AUTH.create_session(email)
 
-    resp_data = {
+    response = make_response(jsonify({
         "email": email,
-        "message": "logged in"
-        }
-    response = jsonify(resp_data)
-    response = make_response(response)
-    response.set_cookie("session_id", new_session)
+        "message": "logged in"}))
+    response.set_cookie("session_id", session_id)
 
     return response
+
+
+@app.route("/profile", methods=["GET"])
+def profile():
+    """a profile function"""
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)
+    if user is None:
+        abort(403)
+
+    return jsonify({"email": user.email}), 200
 
 
 @app.route("/sessions", methods=['DELETE'])

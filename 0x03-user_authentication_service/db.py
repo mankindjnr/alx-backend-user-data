@@ -50,8 +50,6 @@ class DB:
         except InvalidRequestError as e:
             self._session.rollback()
             raise e
-        finally:
-            self._session.close()
 
         return user
 
@@ -68,5 +66,5 @@ class DB:
         except NoResultFound:
             raise NoResultFound("user not found")
         except InvalidRequestError as e:
-            self.session.rollback()
+            self._session.rollback()
             raise e
