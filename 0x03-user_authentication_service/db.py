@@ -49,9 +49,8 @@ class DB:
             user = self._session.query(User).filter_by(**kwargs).first()
             if user is None:
                 raise NoResultFound("Not Found")
-        except InvalidRequestError as e:
+        except InvalidRequestError:
             self._session.rollback()
-            raise e
 
         return user
 
@@ -65,8 +64,8 @@ class DB:
                 else:
                     raise ValueError(f"Invalid argument: {key}")
             self._session.commit()
+            return None
         except NoResultFound:
             raise NoResultFound("user not found")
-        except InvalidRequestError as e:
+        except InvalidRequestError:
             self._session.rollback()
-            raise e
