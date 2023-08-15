@@ -42,7 +42,7 @@ class DB:
 
         return the_user
 
-    def find_user_by(self, **kwargs: Any) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """method takes in arbitrary keyword arg and returns
         first row found in the users table"""
         try:
