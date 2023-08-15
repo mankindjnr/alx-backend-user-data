@@ -76,10 +76,29 @@ def get_reset_password_token():
         abort(403)
 
     token = AUTH.get_reset_password_token(email)
-    return ({
+    return jsonify({
         "email": user.email,
         "reset_token": token
     })
+
+
+@app.route("/reset_password", methods=["PUT"])
+def update_password():
+    """updating the users password"""
+    data = request.form
+    email = data.get('email')
+    reset_token = data.get('reset_token')
+    new_password = data.get('new_password')
+
+    try:
+        AUTH.update_password(reset_token, new_password)
+    except ValueError:
+        abort(403)
+
+    return jsonify({
+        "email": user.email,
+        "message": "Password updated"
+    }), 200
 
 
 @app.route("/sessions", methods=['DELETE'])
